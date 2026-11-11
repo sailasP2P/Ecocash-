@@ -1,0 +1,8 @@
+services:
+  - type: static
+    name: ecocash-loan-portal
+    repo: https://github.com/sailasP2P/Ecocash-
+    branch: main
+    buildCommand: ""
+    staticPublishPath: "."
+    
